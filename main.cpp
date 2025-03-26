@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-bool Branje_Stevil(vector<int> &vec, const char s[]) {
+bool Branje_Stevil(vector<unsigned char> &vec, const char s[]) {
     ifstream input(s);
     int st;
 
@@ -20,7 +20,7 @@ bool Branje_Stevil(vector<int> &vec, const char s[]) {
     return true;
 }
 
-void Izpis_Stevil(int* polje, unsigned int velikost) {
+void Izpis_Stevil(unsigned char* polje, unsigned int velikost) {
     ofstream output("out.txt");
 
     for (int i = 0; i<velikost; i++)
@@ -48,18 +48,20 @@ void countSort(vector<int>& A, int bit){
 
     A = B;
 }
+void binaryRadixSort(vector<unsigned char>& A) {
 
+}
 
 
 int main(int argc, const char* argv[]) {
-    vector<int> A;
+    vector<unsigned char> A;
 
     if (argc < 3) return 0;
     if (!Branje_Stevil(A, argv[2])) return 0;
 
     if (argv[1][0] == '0') {
 
-        countSort(A);
+        binaryRadixSort(A);
     }
 
     Izpis_Stevil(&A[0],A.size());
