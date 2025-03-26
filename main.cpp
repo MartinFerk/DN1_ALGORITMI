@@ -22,31 +22,17 @@ bool Branje_Stevil(vector<int> &vec, const char s[]) {
 
 void Izpis_Stevil(int* polje, unsigned int velikost) {
     ofstream output("out.txt");
-    for (unsigned int i = 0; i < velikost; i++)
+
+    for (int i = 0; i<velikost; i++)
         output << polje[i] << ' ';
 }
 
-void countSort(vector<int>& A, int bit) {
-    vector<int> B(A.size());
-    int count[2] = {0};
+void countSort(vector<int>& A, int bit){
 
-    for (int num : A) {
-        count[(num >> bit) & 1]++;
-    }
-    count[1] += count[0];
-
-    for (int i = A.size() - 1; i >= 0; i--) {
-        int bitVal = (A[i] >> bit) & 1;
-        B[--count[bitVal]] = A[i];
-    }
-    A = B;
+   
 }
 
-void BinaryradixSort(vector<int>& A) {
-    for (int bit = 0; bit < 8; bit++) {
-        countSort(A, bit);
-    }
-}
+
 
 int main(int argc, const char* argv[]) {
     vector<int> A;
@@ -55,11 +41,11 @@ int main(int argc, const char* argv[]) {
     if (!Branje_Stevil(A, argv[2])) return 0;
 
     if (argv[1][0] == '0') {
-        BinaryradixSort(A);
-    } else {
-        return 0;
+
+        countSort(A);
     }
-    Izpis_Stevil(&A[0], A.size());
+
+    Izpis_Stevil(&A[0],A.size());
 
     return 0;
 }
