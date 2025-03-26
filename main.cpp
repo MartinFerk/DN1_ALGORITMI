@@ -27,31 +27,37 @@ void Izpis_Stevil(unsigned char* polje, unsigned int velikost) {
         output << polje[i] << ' ';
 }
 
-void countSort(vector<int>& A, int bit){
-
-    vector<int> B(A.size());
+void countSortBinary(vector<unsigned char>& A, const vector<int>& D) {
+    vector<unsigned char> B(A.size());
     int count[2] = {0};
     int startIndex[2];
 
-    for (int num : A) {
-        int bitVal = (num >> bit) & 1;
-        count[bitVal]++;
+    for (int bit : D) {
+        count[bit]++;
     }
 
     startIndex[0] = 0;
     startIndex[1] = count[0];
 
     for (int i = 0; i < A.size(); i++) {
-        int bitVal = (A[i] >> bit) & 1;
-        B[startIndex[bitVal]++] = A[i];
+        int bit = D[i];
+        B[startIndex[bit]++] = A[i];
     }
 
     A = B;
 }
+
 void binaryRadixSort(vector<unsigned char>& A) {
+    for (int k = 0; k < 8; k++) {
 
+        vector<int> D(A.size());
+        for (int i = 0; i < A.size(); i++) {
+            D[i] = (A[i] >> k) & 1;
+        }
+        countSortBinary(A, D);
+        
+    }
 }
-
 
 int main(int argc, const char* argv[]) {
     vector<unsigned char> A;
