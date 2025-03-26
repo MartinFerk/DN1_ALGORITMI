@@ -29,7 +29,24 @@ void Izpis_Stevil(int* polje, unsigned int velikost) {
 
 void countSort(vector<int>& A, int bit){
 
-   
+    vector<int> B(A.size());
+    int count[2] = {0};
+    int startIndex[2];
+
+    for (int num : A) {
+        int bitVal = (num >> bit) & 1;
+        count[bitVal]++;
+    }
+
+    startIndex[0] = 0;
+    startIndex[1] = count[0];
+
+    for (int i = 0; i < A.size(); i++) {
+        int bitVal = (A[i] >> bit) & 1;
+        B[startIndex[bitVal]++] = A[i];
+    }
+
+    A = B;
 }
 
 
