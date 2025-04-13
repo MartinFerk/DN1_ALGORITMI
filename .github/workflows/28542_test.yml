@@ -8,45 +8,47 @@ jobs:
   preveri-teste:
     runs-on: self-hosted
     steps:
-      - name: Checkout kode
-        uses: actions/checkout@v3
+      - name: 📥 Kloniraj repozitorij
+        uses: actions/checkout@v2
 
-      - name: Preveri, če obstaja testna skripta
+      - name: 🔍 Preveri testno skripto
         run: |
-          if [ ! -f "./tests/run_tests.sh" ]; then
+          if [ ! -f ./tests/run_tests.sh ]; then
             echo "Testna skripta ne obstaja!" > napaka.txt
             exit 1
           fi
 
-      - name: Shrani napako kot artefakt
-        if: failure()
-        uses: actions/upload-artifact@v3
+      - name: 💾 Shrani napako kot artefakt
+        if: always()
+        uses: actions/upload-artifact@v2
         with:
           name: napaka
           path: napaka.txt
+          if-no-files-found: ignore
 
-  testi:
+  pozeni-teste:
     needs: preveri-teste
     runs-on: self-hosted
     steps:
-      - name: Checkout kode
+      - name: 📥 Kloniraj repozitorij
         uses: actions/checkout@v3
 
-      - name: Prenesi artefakt napake
+      - name: 📦 Prenesi artefakt napake
         uses: actions/download-artifact@v3
         with:
           name: napaka
-          path: ./artefakt
+          path: ./artefakti
 
-      - name: Preveri napako
+      - name: ❌ Preveri napako
         run: |
-          if [ -f ./artefakt/napaka.txt ]; then
-            echo "❌ Napaka najdena:"
-            cat ./artefakt/napaka.txt
+          if [ -f ./artefakti/napaka.txt ]; then
+            echo "❌ Napaka:"
+            cat ./artefakti/napaka.txt
             exit 1
           fi
 
-      - name: Poženi teste
+      - name: ▶️ Zaženi teste
         run: |
           chmod +x ./tests/run_tests.sh
           ./tests/run_tests.sh
+
