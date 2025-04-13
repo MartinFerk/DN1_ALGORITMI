@@ -20,7 +20,7 @@ jobs:
 
       - name: 💾 Shrani napako kot artefakt
         if: always()
-        uses: ./_work/_actions/actions/upload-artifact
+        uses: ../../../../../_actions/actions/upload-artifact
         with:
           name: napaka
           path: napaka.txt
