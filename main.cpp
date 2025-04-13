@@ -60,6 +60,9 @@ void binaryRadixSort(vector<unsigned char>& A) {
 }
 
 int main(int argc, const char* argv[]) {
+
+std::cout << "Nova verzija!" << std::endl;
+
     vector<unsigned char> A;
 
     if (argc < 3) return 0;
