@@ -1,0 +1,28 @@
+name: 28542 Deploy
+
+on:
+  workflow_run:
+    workflows: ["28542 Test"]
+    types:
+      - completed
+
+jobs:
+  build-and-push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        tag: [latest, v1.0]
+
+    steps:
+      - name:  Kloniraj repozitorij
+        uses: actions/checkout@v3
+
+      - name:  Zgradi Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/dn1_algoritem:${{ matrix.tag }} .
+
+      - name:  Prijavi se v DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name:  Pushaj image na DockerHub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/dn1_algoritem:${{ matrix.tag }}
